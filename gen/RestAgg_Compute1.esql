@@ -1,0 +1,12 @@
+BROKER SCHEMA gen
+
+
+CREATE COMPUTE MODULE RestAgg_Compute1
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		SET OutputLocalEnvironment.ComIbmAggregateControlNode =InputLocalEnvironment.ComIbmAggregateControlNode;
+		SET OutputRoot= InputRoot;
+		SET OutputLocalEnvironment.Destination.HTTP.RequestURL = 'http://localhost:7800/restget1/v1/get1/' || Environment.Variables.id;
+		SET OutputLocalEnvironment.Destination.REST.Request.BaseURL = 'http://localhost:7800/restget1/v1/get1/' || Environment.Variables.id;
+	END;
+END MODULE;

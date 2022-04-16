@@ -1,0 +1,31 @@
+
+--DECLARE SharedDETAILS SHARED CHAR;
+CREATE COMPUTE MODULE GetAgg_Compute3
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		-- SHARED VARIABLE
+		--IF SharedDETAILS IS NULL THEN
+		
+		SET OutputLocalEnvironment.ComIbmAggregateControlNode =InputLocalEnvironment.ComIbmAggregateControlNode;
+			
+			CREATE LASTCHILD OF OutputRoot DOMAIN 'XMLNSC';
+			CREATE FIELD OutputRoot.XMLNSC.Root.Details;
+			DECLARE Inref1 REFERENCE TO InputRoot.ComIbmAggregateReplyBody.RestBackend1.JSON.Data;
+			DECLARE Inref2 REFERENCE TO InputRoot.ComIbmAggregateReplyBody.RestBackend2.JSON.Data;
+			DECLARE Outref REFERENCE TO OutputRoot.XMLNSC.Root.Details;
+			
+			SET Outref.Cust_Id = Inref1.cust_id;
+			SET Outref.Cust_Name = Inref1.cust_name;
+			SET Outref.Cust_Type = Inref1.cust_type;
+			SET Outref.Cust_Tel = Inref1.cust_tel;
+			SET Outref.Cust_Email = Inref1.cust_email;
+			
+			SET Outref.Cust_Id = Inref2.cust_id;
+			SET Outref.Cust_City = Inref2.cust_city;
+			SET Outref.Cust_Gender = Inref2.cust_gender;
+			--SET SharedDETAILS = OutputRoot.XMLNSC.Root.Details;
+		--END IF;
+		
+		RETURN TRUE;
+	END;
+END MODULE;

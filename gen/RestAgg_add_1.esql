@@ -1,0 +1,11 @@
+BROKER SCHEMA gen
+
+
+CREATE COMPUTE MODULE RestAgg_add_1
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		DECLARE inref REFERENCE TO InputRoot.JSON.Data.AddCustomerRequest.details;
+		
+		INSERT INTO Database.SYSTEM.CUST_DETAILS VALUES (inref.CustId,inref.CustName,inref.CustTel,inref.CustType,inref.CustEmail);
+	END;
+END MODULE;

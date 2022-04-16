@@ -1,0 +1,10 @@
+BROKER SCHEMA gen
+
+
+CREATE COMPUTE MODULE RestAgg_Compute
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		SET InputLocalEnvironment.REST.Input.Parameters.id = Environment.Variables.id;
+		RETURN TRUE;
+	END;
+END MODULE;

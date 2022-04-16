@@ -1,0 +1,26 @@
+BROKER SCHEMA gen
+
+
+CREATE COMPUTE MODULE RestAgg_get
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		DECLARE id CHAR '';
+		DECLARE DBFetch ROW;
+		DECLARE DBFetch2 ROW;
+		
+		SET id = InputLocalEnvironment.REST.Input.Parameters.id;
+		SET DBFetch.Result[] = SELECT R FROM Database.SYSTEM.CUST_DETAILS AS R WHERE R.CUST_Id=id;
+		SET DBFetch2.Result[] = SELECT R FROM Database.SYSTEM.CUST_DETAILS AS R WHERE R.CUST_Id=id;
+		
+		CREATE FIELD OutputRoot.JSON.Data;
+		DECLARE outref REFERENCE TO OutputRoot.JSON.Data;
+		
+		SET outref.cust_id = DBFetch.Result.CUST_ID;
+		SET outref.cust_name = DBFetch.Result.CUST_NAME;
+		SET outref.cust_email = DBFetch.Result.CUST_EMAIL;
+		SET outref.cust_type = DBFetch.Result.CUST_TYPE;
+		SET outref.cust_tel = DBFetch.Result.CUST_TEL;
+		SET outref.cust_city = DBFetch.Result.CUST_CITY;
+		SET outref.cust_gender = DBFetch.Result.CUST_GENDER;
+	END;
+END MODULE;
